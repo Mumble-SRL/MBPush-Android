@@ -7,7 +7,7 @@ package mumble.mbpush.Common.MBConstants;
 public class MBUserConstants {
 
     /**
-     * Push API key obtained from Nooko Push project, initialized with {@link mumble.mbpush.MBPush#initPush(String)} (String)} method
+     * Push API key obtained from Nooko Push project, initialized with {@link mumble.mbpush.MBPush#init(String)} (String)} method
      */
     public static String pushKey = null;
 

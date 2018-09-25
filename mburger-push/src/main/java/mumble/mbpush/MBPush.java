@@ -4,7 +4,7 @@ import mumble.mbpush.Common.MBConstants.MBUserConstants;
 
 public class MBPush {
 
-    public static void initPush(String token) {
+    public static void init(String token) {
         MBUserConstants.pushKey = token;
     }
 
