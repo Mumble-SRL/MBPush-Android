@@ -203,14 +203,9 @@ public class MBAPIManager3 {
         urlConnection = (HttpsURLConnection) url.openConnection();
         urlConnection.setRequestMethod(method);
         urlConnection.setHostnameVerifier(hostnameVerifier);
-        //urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         urlConnection.setRequestProperty("X-MPush-Token", MBUserConstants.pushKey);
         urlConnection.setRequestProperty("X-Nooko-Version", "2");
         urlConnection.setRequestProperty("Accept", "application/json");
-        if (MBCommonMethods.hasLoggedIn(context)) {
-            urlConnection.setRequestProperty("Authorization", "Bearer " + MBCommonMethods.getAccessToken(context));
-        }
-
         urlConnection.setDoInput(true);
         urlConnection.setDoOutput(false);
 
@@ -247,14 +242,9 @@ public class MBAPIManager3 {
         urlConnection.setDoInput(true);
         urlConnection.setDoOutput(false);
         urlConnection.setRequestMethod("GET");
-        //urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         urlConnection.setRequestProperty("X-MPush-Token", MBUserConstants.pushKey);
         urlConnection.setRequestProperty("X-Nooko-Version", "2");
         urlConnection.setRequestProperty("Accept", "application/json");
-        if (MBCommonMethods.hasLoggedIn(context)) {
-            urlConnection.setRequestProperty("Authorization", "Bearer " + MBCommonMethods.getAccessToken(context));
-        }
-
         return urlConnection;
     }
 
