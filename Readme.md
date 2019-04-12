@@ -25,6 +25,22 @@ Be aware that **MBurger uses the "data" message** types in order to permit the d
 
 After you have set up your project for Firebase you can start using Nooko SDK to register users receive FCM messages.
 
+### Setup
+
+If you have the **MBurger Android SDK** already installed on your project, you also have MPush, if you wish to add it without MBurger you can get the library via **Maven** adding to your top `build.gradle` file this repository:
+
+```
+maven { 
+	url "https://dl.bintray.com/mumbleideas/MBurger-Android/" 
+}
+```
+
+Then add to your dependencies:
+
+```
+implementation 'mumble.mburger:mpush-android:1.0'
+```
+
 
 
 ### Register a device
