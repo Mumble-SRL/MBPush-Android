@@ -1,4 +1,36 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+ext {
+    bintrayRepo = 'MBurger-Android'
+    bintrayName = 'mpush'
+
+    publishedGroupId = 'mumble.mburger'
+    libraryName = 'MPushLib'
+    artifact = 'mpush-android'
+
+    libraryDescription = 'Android library for MBurger push system'
+
+    siteUrl = 'https://github.com/Mumble-SRL/MBPush-Android'
+    gitUrl = 'https://github.com/Mumble-SRL/MBPush-Android.git'
+
+    libraryVersion = '1.0'
+
+    developerId = 'MBurger-Android'
+    developerName = 'Mumble'
+    developerEmail = 'giacomo.torricelli@mumbleideas.it'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
 
 android {
     compileSdkVersion 28
@@ -22,3 +54,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-base:16.1.0'
     implementation 'com.github.omegasoft7.FSLogger:fslogger:1.9.1@aar'
 }
+
+apply from: 'https://raw.githubusercontent.com/Mumble-SRL/JCenter/master/script.gradle'
