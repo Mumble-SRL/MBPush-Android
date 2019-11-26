@@ -58,7 +58,9 @@ public void onNewToken(String token) {
 ```java
 @Override
 public void onNewToken(String token) {
-    MBurgerPushTasks.sendToken(getApplicationContext(), getDeviceID(), token);
+    MBurgerPushTasks.sendToken(getApplicationContext(), 
+			listener, //OPTIONAL LISTENER FOR TOKEN SENDING AND ERROR MANAGING
+            getDeviceID(), token);
 }
 ```
 
@@ -111,8 +113,7 @@ To create a notification with the Andorid SDK refer [this documentation](https:/
 
 ### Push topics management
 
-To unsubscribe from a push topic you'll need to call the **unregisterTopics**() API with the same fields you used with **registerTopics**(). You'll need to call `registerTopics()` in order to be subscribed to the topics.
-You can also unsubscribe to all topics you subscribed by calling:
+To unsubscribe from a push topic you'll need to call the **unregisterTopics**() API with the same fields you used with **registerTopics**(). You can also unsubscribe to all topics you subscribed by calling:
 
 ```java
 MBurgerPushTasks.unregisterAllTopics(context, getDeviceId())
