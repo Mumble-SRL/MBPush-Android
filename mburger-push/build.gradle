@@ -21,7 +21,7 @@ ext {
     siteUrl = 'https://github.com/Mumble-SRL/MBPush-Android'
     gitUrl = 'https://github.com/Mumble-SRL/MBPush-Android.git'
 
-    libraryVersion = '1.0'
+    libraryVersion = '1.1.1'
 
     developerId = 'MBurger-Android'
     developerName = 'Mumble'
@@ -33,12 +33,12 @@ ext {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 29
+        versionCode 3
+        versionName "1.1.1"
     }
     buildTypes {
         release {
@@ -50,9 +50,12 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:support-v4:28.0.0'
-    implementation 'com.google.android.gms:play-services-base:16.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.gms:play-services-base:17.3.0'
     implementation 'com.github.omegasoft7.FSLogger:fslogger:1.9.1@aar'
+    implementation('mumble.mburger:android_kt:0.5.11') {
+        transitive = false
+    }
 }
 
 apply from: 'https://raw.githubusercontent.com/Mumble-SRL/JCenter/master/script.gradle'

@@ -4,20 +4,24 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import org.json.JSONArray;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Map;
 
-import mumble.mbpush.Common.MBApiManager.MBAMActivityUtils;
-import mumble.mbpush.Common.MBApiManager.MBAPIManager3;
-import mumble.mbpush.Common.MBApiManager.MBApiManagerConfig;
-import mumble.mbpush.Common.MBApiManager.MBApiManagerUtils;
 import mumble.mbpush.Common.MBCommonMethods;
 import mumble.mbpush.Common.MBConstants.MBAPIConstants;
+import mumble.mbpush.Common.MBConstants.MBApiManagerConfig;
+import mumble.mbpush.Common.MBConstants.MBUserConstants;
+import mumble.mbpush.MBPushData.MBTopic;
 import mumble.mbpush.MBPushMethods.MBPushResultsListener.MBPushRegisterTopicsListener;
+import mumble.mburger.sdk.kt.Common.MBApiManager.MBAMActivityUtils;
+import mumble.mburger.sdk.kt.Common.MBApiManager.MBAPIManager4;
+import mumble.mburger.sdk.kt.Common.MBApiManager.MBApiManagerUtils;
 
 public class MBPushAsyncTask_RegisterTopics extends AsyncTask<Void, Void, Void> {
 
@@ -37,7 +41,7 @@ public class MBPushAsyncTask_RegisterTopics extends AsyncTask<Void, Void, Void> 
      * Topics to register on
      */
     @NonNull
-    private JSONArray topics;
+    private ArrayList<MBTopic> topics;
 
     /**
      * If you wish to change the action that accompanies the API result
@@ -53,20 +57,20 @@ public class MBPushAsyncTask_RegisterTopics extends AsyncTask<Void, Void, Void> 
     private String error;
     private Map<String, Object> map;
 
-    public MBPushAsyncTask_RegisterTopics(Context context, String device_id, JSONArray topics) {
+    public MBPushAsyncTask_RegisterTopics(Context context, String device_id, ArrayList<MBTopic> topics) {
         this.weakContext = new WeakReference<>(context);
         this.device_id = device_id;
         this.topics = topics;
     }
 
-    public MBPushAsyncTask_RegisterTopics(Context context, String custom_action, String device_id, JSONArray topics) {
+    public MBPushAsyncTask_RegisterTopics(Context context, String custom_action, String device_id, ArrayList<MBTopic> topics) {
         this.weakContext = new WeakReference<>(context);
         this.action = custom_action;
         this.device_id = device_id;
         this.topics = topics;
     }
 
-    public MBPushAsyncTask_RegisterTopics(Context context, MBPushRegisterTopicsListener listener, String device_id, JSONArray topics) {
+    public MBPushAsyncTask_RegisterTopics(Context context, MBPushRegisterTopicsListener listener, String device_id, ArrayList<MBTopic> topics) {
         this.weakContext = new WeakReference<>(context);
         this.listener = listener;
         this.device_id = device_id;
@@ -76,7 +80,7 @@ public class MBPushAsyncTask_RegisterTopics extends AsyncTask<Void, Void, Void> 
     @Override
     protected Void doInBackground(Void... arg0) {
         putValuesAndCall();
-        if (MBApiManagerUtils.hasMapOkResults(map, false)) {
+        if (MBApiManagerUtils.Companion.hasMapOkResults(map, false)) {
             result = MBApiManagerConfig.RESULT_OK;
         } else {
             if (map.containsKey(MBApiManagerConfig.AM_RESULT)) {
@@ -101,7 +105,7 @@ public class MBPushAsyncTask_RegisterTopics extends AsyncTask<Void, Void, Void> 
                 Intent i = new Intent(action);
                 i.putExtra("result", result);
                 i.putExtra("error", error);
-                MBAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
+                MBAMActivityUtils.Companion.sendBroadcastMessage(weakContext.get(), i);
             } else {
                 if (error != null) {
                     listener.onTopicsRegisteredError(error);
@@ -113,10 +117,38 @@ public class MBPushAsyncTask_RegisterTopics extends AsyncTask<Void, Void, Void> 
     }
 
     public void putValuesAndCall() {
+        ContentValues valuesHeaders = new ContentValues();
+        valuesHeaders.put("X-MPush-Token", MBUserConstants.pushKey);
+
+        StringBuilder builder = new StringBuilder("{");
+        StringBuilder builderTopics = new StringBuilder("[");
+        builder.append("\"device_id\":\"" + device_id + "\",");
+
+        for(int i = 0; i < topics.size(); i++){
+            MBTopic topic = topics.get(i);
+            StringBuilder builderT = new StringBuilder("{");
+            builderT.append("\"code\":\"" + topic.getTopic() + "\",");
+            builderT.append("\"single\":" + topic.isSingle() + "");
+            if(topic.getTitle() != null) {
+                builderT.append(",");
+                builderT.append("\"title\":\"" + topic.getTitle() + "\"");
+            }
+
+            builderT.append("}");
+            if((i + 1) != topics.size()){
+                builderT.append(",");
+            }
+        }
+
+        builderTopics.append("]");
+        builder.append("\"topics\":" + topics + ",");
+        builder.append("}");
+
         ContentValues values = new ContentValues();
-        values.put("topics", topics.toString());
-        values.put("device_id", device_id);
-        map = MBAPIManager3.callApi(weakContext.get(),
-                MBApiManagerConfig.API_REGISTER_TOPICS, values, MBApiManagerConfig.MODE_POST, false);
+
+        map = MBAPIManager4.Companion.callApi(weakContext.get(),
+                MBApiManagerConfig.API_REGISTER_TOPICS, values, mumble.mburger.sdk.kt.Common.MBApiManager.MBApiManagerConfig.Companion.getMODE_POST(),
+                false, false, MBApiManagerConfig.endpoint_push, MBApiManagerConfig.SERVER_HOSTNAME_PUSH,
+                true, valuesHeaders, builder.toString());
     }
 }

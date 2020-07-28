@@ -1,17 +1,9 @@
-package mumble.mbpush.Common.MBApiManager;
+package mumble.mbpush.Common.MBConstants;
 
-import mumble.mbpush.Common.MBConstants.MBConstants;
-
-/**
- * Static fields for API configuration
- *
- * @author Enrico Ori
- * @version {@value MBConstants#version}
- */
 public class MBApiManagerConfig {
 
-    public static final String endpoint_push = "https://push.mumbleserver.it";
-    public static final String SERVER_HOSTNAME_PUSH = "push.mumbleserver.it";
+    public static final String endpoint_push = "https://app.mpush.cloud";
+    public static final String SERVER_HOSTNAME_PUSH = "app.mpush.cloud";
 
     public static final int MODE_POST = -1;
     public static final int MODE_GET = -2;
@@ -51,4 +43,3 @@ public class MBApiManagerConfig {
     public static final String AM_RESPONSE = "response";
     public static final String AM_ERROR = "error";
 }
-

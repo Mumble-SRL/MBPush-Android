@@ -1,25 +1,14 @@
 package mumble.mbpush.Common;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.provider.Settings;
-import android.util.Base64;
 
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 
-import mumble.mbpush.Common.MBApiManager.MBApiManagerConfig;
+import mumble.mbpush.Common.MBConstants.MBApiManagerConfig;
 import mumble.mbpush.Common.MBConstants.MBConstants;
 import mumble.mbpush.R;
 

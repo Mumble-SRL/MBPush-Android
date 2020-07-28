@@ -4,8 +4,11 @@ import android.content.Context;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+
 import mumble.mbpush.Common.MBConstants.MBUserConstants;
 import mumble.mbpush.Common.MBExceptions.MBSDKInitializeException;
+import mumble.mbpush.MBPushData.MBTopic;
 import mumble.mbpush.MBPushMethods.MBPushAsyncTasks.MBPushAsyncTask_RegisterTopics;
 import mumble.mbpush.MBPushMethods.MBPushAsyncTasks.MBPushAsyncTask_SendToken;
 import mumble.mbpush.MBPushMethods.MBPushAsyncTasks.MBPushAsyncTask_UnregisterAllTopics;
@@ -54,7 +57,7 @@ public class MBurgerPushTasks {
     /**
      * Register push channels
      */
-    public static void registerTopics(Context context, String device_id, JSONArray topics) {
+    public static void registerTopics(Context context, String device_id, ArrayList<MBTopic> topics) {
         if (MBUserConstants.pushKey != null) {
             new MBPushAsyncTask_RegisterTopics(context, device_id, topics).execute();
         } else {
@@ -65,7 +68,7 @@ public class MBurgerPushTasks {
     /**
      * Register push channels with custom action callback
      */
-    public static void registerTopics(Context context, String custom_action, String device_id, JSONArray topics) {
+    public static void registerTopics(Context context, String custom_action, String device_id, ArrayList<MBTopic> topics) {
         if (MBUserConstants.pushKey != null) {
             new MBPushAsyncTask_RegisterTopics(context, custom_action, device_id, topics).execute();
         } else {
@@ -76,7 +79,7 @@ public class MBurgerPushTasks {
     /**
      * Register push channels with listener callback
      */
-    public static void registerTopics(Context context, MBPushRegisterTopicsListener listener, String device_id, JSONArray topics) {
+    public static void registerTopics(Context context, MBPushRegisterTopicsListener listener, String device_id, ArrayList<MBTopic> topics) {
         if (MBUserConstants.pushKey != null) {
             new MBPushAsyncTask_RegisterTopics(context, listener, device_id, topics).execute();
         } else {

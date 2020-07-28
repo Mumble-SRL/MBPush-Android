@@ -4,18 +4,20 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
-import mumble.mbpush.Common.MBApiManager.MBAMActivityUtils;
-import mumble.mbpush.Common.MBApiManager.MBAPIManager3;
-import mumble.mbpush.Common.MBApiManager.MBApiManagerConfig;
-import mumble.mbpush.Common.MBApiManager.MBApiManagerUtils;
 import mumble.mbpush.Common.MBCommonMethods;
 import mumble.mbpush.Common.MBConstants.MBAPIConstants;
+import mumble.mbpush.Common.MBConstants.MBApiManagerConfig;
+import mumble.mbpush.Common.MBConstants.MBUserConstants;
 import mumble.mbpush.MBPushMethods.MBPushResultsListener.MBPushUnregisterAllTopicsListener;
+import mumble.mburger.sdk.kt.Common.MBApiManager.MBAMActivityUtils;
+import mumble.mburger.sdk.kt.Common.MBApiManager.MBAPIManager4;
+import mumble.mburger.sdk.kt.Common.MBApiManager.MBApiManagerUtils;
 
 public class MBPushAsyncTask_UnregisterAllTopics extends AsyncTask<Void, Void, Void> {
 
@@ -65,7 +67,7 @@ public class MBPushAsyncTask_UnregisterAllTopics extends AsyncTask<Void, Void, V
     @Override
     protected Void doInBackground(Void... arg0) {
         putValuesAndCall();
-        if (MBApiManagerUtils.hasMapOkResults(map, false)) {
+        if (MBApiManagerUtils.Companion.hasMapOkResults(map, false)) {
             result = MBApiManagerConfig.RESULT_OK;
         } else {
             if (map.containsKey(MBApiManagerConfig.AM_RESULT)) {
@@ -90,7 +92,7 @@ public class MBPushAsyncTask_UnregisterAllTopics extends AsyncTask<Void, Void, V
                 Intent i = new Intent(action);
                 i.putExtra("result", result);
                 i.putExtra("error", error);
-                MBAMActivityUtils.sendBroadcastMessage(weakContext.get(), i);
+                MBAMActivityUtils.Companion.sendBroadcastMessage(weakContext.get(), i);
             } else {
                 if (error != null) {
                     listener.onAllTopicsUnregisteredError(error);
@@ -102,9 +104,14 @@ public class MBPushAsyncTask_UnregisterAllTopics extends AsyncTask<Void, Void, V
     }
 
     public void putValuesAndCall() {
+        ContentValues valuesHeaders = new ContentValues();
+        valuesHeaders.put("X-MPush-Token", MBUserConstants.pushKey);
+
         ContentValues values = new ContentValues();
         values.put("device_id", device_id);
-        map = MBAPIManager3.callApi(weakContext.get(),
-                MBApiManagerConfig.API_UNREGISTER_ALL_TOPICS, values, MBApiManagerConfig.MODE_POST, false);
+
+        map = MBAPIManager4.Companion.callApi(weakContext.get(),
+                MBApiManagerConfig.API_UNREGISTER_ALL_TOPICS, values, mumble.mburger.sdk.kt.Common.MBApiManager.MBApiManagerConfig.Companion.getMODE_POST(), false,
+                false, MBApiManagerConfig.endpoint_push, MBApiManagerConfig.SERVER_HOSTNAME_PUSH, true, valuesHeaders, null);
     }
 }
