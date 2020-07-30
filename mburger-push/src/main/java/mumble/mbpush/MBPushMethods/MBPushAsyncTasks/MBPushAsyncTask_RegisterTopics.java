@@ -7,8 +7,6 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 
-import org.json.JSONArray;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Map;
@@ -120,29 +118,32 @@ public class MBPushAsyncTask_RegisterTopics extends AsyncTask<Void, Void, Void> 
         ContentValues valuesHeaders = new ContentValues();
         valuesHeaders.put("X-MPush-Token", MBUserConstants.pushKey);
 
-        StringBuilder builder = new StringBuilder("{");
+        StringBuilder builder = new StringBuilder();
         StringBuilder builderTopics = new StringBuilder("[");
         builder.append("\"device_id\":\"" + device_id + "\",");
 
-        for(int i = 0; i < topics.size(); i++){
+        for (int i = 0; i < topics.size(); i++) {
             MBTopic topic = topics.get(i);
             StringBuilder builderT = new StringBuilder("{");
             builderT.append("\"code\":\"" + topic.getTopic() + "\",");
-            builderT.append("\"single\":" + topic.isSingle() + "");
-            if(topic.getTitle() != null) {
-                builderT.append(",");
+            builderT.append("\"single\":" + topic.isSingle() + "\",");
+            if (topic.getTitle() != null) {
                 builderT.append("\"title\":\"" + topic.getTitle() + "\"");
+            } else {
+                builderT.append("\"title\":\"" + topic.getTopic() + "\"");
             }
 
             builderT.append("}");
-            if((i + 1) != topics.size()){
+
+            if ((i + 1) != topics.size()) {
                 builderT.append(",");
             }
+
+            builderTopics.append(builderT);
         }
 
         builderTopics.append("]");
-        builder.append("\"topics\":" + topics + ",");
-        builder.append("}");
+        builder.append("\"topics\":" + builderTopics);
 
         ContentValues values = new ContentValues();
 

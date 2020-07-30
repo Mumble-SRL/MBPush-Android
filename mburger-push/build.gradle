@@ -21,7 +21,7 @@ ext {
     siteUrl = 'https://github.com/Mumble-SRL/MBPush-Android'
     gitUrl = 'https://github.com/Mumble-SRL/MBPush-Android.git'
 
-    libraryVersion = '1.1.1'
+    libraryVersion = '1.1.4'
 
     developerId = 'MBurger-Android'
     developerName = 'Mumble'
@@ -37,8 +37,8 @@ android {
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 3
-        versionName "1.1.1"
+        versionCode 5
+        versionName "1.1.4"
     }
     buildTypes {
         release {
