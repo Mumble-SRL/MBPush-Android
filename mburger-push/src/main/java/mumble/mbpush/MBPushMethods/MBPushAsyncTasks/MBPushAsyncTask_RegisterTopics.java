@@ -118,7 +118,7 @@ public class MBPushAsyncTask_RegisterTopics extends AsyncTask<Void, Void, Void> 
         ContentValues valuesHeaders = new ContentValues();
         valuesHeaders.put("X-MPush-Token", MBUserConstants.pushKey);
 
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder("{");
         StringBuilder builderTopics = new StringBuilder("[");
         builder.append("\"device_id\":\"" + device_id + "\",");
 
@@ -126,7 +126,7 @@ public class MBPushAsyncTask_RegisterTopics extends AsyncTask<Void, Void, Void> 
             MBTopic topic = topics.get(i);
             StringBuilder builderT = new StringBuilder("{");
             builderT.append("\"code\":\"" + topic.getTopic() + "\",");
-            builderT.append("\"single\":" + topic.isSingle() + "\",");
+            builderT.append("\"single\":" + topic.isSingle() + ",");
             if (topic.getTitle() != null) {
                 builderT.append("\"title\":\"" + topic.getTitle() + "\"");
             } else {
@@ -144,6 +144,7 @@ public class MBPushAsyncTask_RegisterTopics extends AsyncTask<Void, Void, Void> 
 
         builderTopics.append("]");
         builder.append("\"topics\":" + builderTopics);
+        builder.append("}");
 
         ContentValues values = new ContentValues();
 
